@@ -299,7 +299,7 @@ const Home = () => {
     {
       id: 5,
       name: 'Thuốc Dạ Dày',
-      price: '290,000 VNĐ',
+      price: '590,000 VNĐ',
       image: daDay,
       badge: 'Limited',
       description: 'Thực phẩm chức năng hỗ trợ sức khỏe dạ dày, giảm triệu chứng khó tiêu. BỘT UỐNG CHO NGƯỜI DẠ DÀY, BAO TỬ, Ợ CHUA PANCILON NỘI ĐỊA NHẬT'
