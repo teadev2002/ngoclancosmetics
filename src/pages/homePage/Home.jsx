@@ -12,7 +12,7 @@ import suaRuaMat from '../../assets/sua-rua-mat.jpg';
 import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
 import poster from '../../assets/poster.jpg';
 import Header from '../../components/header/Header.jsx';  
-import Footer from '../../components/footer/footer.jsx';
+import Footer from '../../components/footer/Footer.jsx';
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
