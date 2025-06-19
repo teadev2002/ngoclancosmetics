@@ -848,7 +848,7 @@ const Home = () => {
     const { name, price, image, description } = shareableProduct;
 
     // Format the message to share
-    const shareText = `Đặt hàng sản phẩm:\nTên: ${name}\nGiá: ${price}\nMô tả: ${description}\nHình ảnh: ${image}\nLiên hệ Ngọc Lan Cosmetics qua Zalo: 0902715456`;
+    const shareText = `Đặt hàng sản phẩm:\nTên: ${name}\nGiá: ${price}\nMô tả: ${description}\nLiên hệ Ngọc Lan Cosmetics qua Zalo: 0902715456 \n`;
 
     try {
       // Check if Web Share API is supported
