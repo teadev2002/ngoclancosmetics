@@ -96,7 +96,7 @@ const Home = () => {
   };
 
   const products = [
-    { id: 1, name: 'Chống Nắng', price: '¥4,200', image: chongNang, badge: 'Best Seller' },
+    { id: 1, name: 'Chống Nắng cao cấp', price: '¥4,200', image: chongNang, badge: 'Best Seller' },
     { id: 2, name: 'Sữa Rửa Mặt', price: '¥3,800', image: suaRuaMat, badge: 'Popular' },
     { id: 3, name: 'Thuốc Nhỏ Mắt', price: '¥3,500', image: thuocNhoMat, badge: 'New' },
     { id: 4, name: 'Serum Dưỡng Trắng', price: '¥5,600', image: serum, badge: 'Premium' },
@@ -118,7 +118,7 @@ const Home = () => {
       <header className="header fixed-top">
         <Navbar expand="lg" className="navbar px-3">
           <Container>
-            <Navbar.Brand href="#home" className="brand-text">Ngọc Lan Cosmetics</Navbar.Brand>
+            <Navbar.Brand href="#home" className="brand-text" style={{fontSize: '26px'}}>Ngọc Lan Cosmetics  </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
@@ -146,9 +146,9 @@ const Home = () => {
                   <Button className="btn btn-primary btn-lg me-3">Shop Now</Button>
                 </div>
                 <div className="hero-features mt-4">
-                  <div className="feature-item"><span className="feature-icon">✨</span>100% Authentic</div>
-                  <div className="feature-item"><span className="feature-icon">🚀</span>Fast Delivery</div>
-                  <div className="feature-item"><span className="feature-icon">💝</span>Premium Quality</div>
+                  <div className="feature-item"><span className="feature-icon">✨</span>100% Hàng thật</div>
+                  <div className="feature-item"><span className="feature-icon">🚀</span>Giao hàng nhanh</div>
+                  <div className="feature-item"><span className="feature-icon">💝</span>Chất lượng tuyệt vời</div>
                 </div>
               </div>
             </Col>
@@ -177,7 +177,7 @@ const Home = () => {
                     <img src={product.image} alt={product.name} className="product-image" />
                     <div className="product-badge">{product.badge}</div>
                     <div className="product-overlay">
-                      <Button className="btn btn-light btn-sm">Quick View</Button>
+                      <Button className="btn btn-light btn-sm">Xem nhanh</Button>
                     </div>
                   </div>
                   <Card.Body className="product-info text-center">
@@ -187,7 +187,7 @@ const Home = () => {
                       className="btn btn-primary btn-sm w-100"
                       onClick={() => captureAndPreview(product.id)}
                     >
-                      Order
+                      Đặt hàng
                     </Button>
                   </Card.Body>
                 </Card>
@@ -273,12 +273,7 @@ const Home = () => {
               <div className="footer-brand">
                 <h3 className="brand-text">Ngọc Lan Cosmetics</h3>
                 <p>Mang đến cho bạn những sản phẩm làm đẹp chuẩn Nhật chính hiệu.</p>
-                <div className="social-links">
-                  <a href="#" className="social-link">📘</a>
-                  <a href="#" className="social-link">📷</a>
-                  <a href="#" className="social-link">🐦</a>
-                  <a href="#" className="social-link">📌</a>
-                </div>
+                 
               </div>
             </Col>
             <Col md={6} className="mb-4 mb-md-0">
@@ -297,7 +292,7 @@ const Home = () => {
       {/* Image Preview Modal */}
       <Modal show={showModal} onHide={handleClose} centered className="image-preview-modal">
         <Modal.Header closeButton>
-          <Modal.Title>Product Preview</Modal.Title>
+          <Modal.Title>{productName} </Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
           {capturedImage && (
@@ -308,16 +303,16 @@ const Home = () => {
                 className="img-fluid mb-3"
                 style={{ maxHeight: '300px', borderRadius: '8px' }}
               />
-              <h5>{productName}</h5>
+            
             </>
           )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            Hủy
           </Button>
           <Button variant="primary" onClick={sendImage}>
-            Send
+          Gửi tới Zalo
           </Button>
         </Modal.Footer>
       </Modal>
