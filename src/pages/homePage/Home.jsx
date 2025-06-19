@@ -901,7 +901,7 @@ const Home = () => {
                         className="btn btn-light btn-sm" 
                         onClick={() => handleQuickView(product)}
                       >
-                        Xem nhanh
+                        Xem chi tiết
                       </Button>
                     </div>
                   </div>
