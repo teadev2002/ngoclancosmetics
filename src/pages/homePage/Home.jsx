@@ -1,597 +1,71 @@
-// import React, { useState, useRef } from 'react'; 
-// import { Container, Navbar, Nav, Row, Col, Carousel, Card, Button, Modal } from 'react-bootstrap';
-// import * as htmlToImage from 'html-to-image';
-// import { ToastContainer, toast } from 'react-toastify';  
-// import 'react-toastify/dist/ReactToastify.css';  
-// import './HomeStyle.scss';
-// import chongNang from '../../assets/chong-nang-cao-cap.jpg';
-// import daDay from '../../assets/da-day.jpg';
-// import serum from '../../assets/serum-duong-trang.jpg';
-// import suaRuaMat from '../../assets/sua-rua-mat.jpg';
-// import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
-// import Header from '../../components/header/Header.jsx';  
-// import QualityNFeedback from '../../components/hardCode/QualityNFeedback.jsx';
-// import HomeBanner from '../../components/hardCode/HomeBanner.jsx';
-// import Footer from '../../components/footer/Footer.jsx';
-// const Home = () => {
-//   const [showModal, setShowModal] = useState(false);
-//   const [capturedImage, setCapturedImage] = useState(null);
-//   const [productName, setProductName] = useState('');
-//   const productCardRef = useRef(null);
-
-//   const captureAndPreview = async (productId) => {
-//     try {
-//       const cardElement = document.querySelector(`#product-${productId} .card`);
-//       if (!cardElement) return;
-
- 
-//       const button = cardElement.querySelector('.btn-primary');
-//       if (button) {
-//         button.style.display = 'none';
-//       }
-
-    
-//       const nameElement = cardElement.querySelector('.product-name');
-//       const name = nameElement ? nameElement.textContent : '';
-
-//       // Capture the image
-//       const imgData = await htmlToImage.toPng(cardElement);
-
-      
-//       if (button) {
-//         button.style.display = 'block';
-//       }
-
-//       setCapturedImage(imgData);
-//       setProductName(name);
-//       setShowModal(true);
-//     } catch (error) {
-//       console.error('Error capturing image:', error);
-//       toast.error('Lỗi khi chụp ảnh sản phẩm!', { autoClose: 2000 });
-//     }
-//   };
-
-//   const sendImage = async () => {
-//     if (!capturedImage) return;
-
-//     try {
-   
-//       const response = await fetch(capturedImage);
-//       const blob = await response.blob();
-//       const file = new File([blob], `${productName}.png`, { type: 'image/png' });
-
-//       // Check if Web Share API is supported
-//       if (navigator.share && navigator.canShare({ files: [file] })) {
-//         await navigator.share({
-//           files: [file],
-//           title: `Sản phẩm: ${productName}`,
-//           text: `Xem sản phẩm ${productName} từ Ngọc Lan Cosmetics! Liên hệ Zalo: 0902715456`,
-//         });
-//         toast.success('Đã chia sẻ sản phẩm!', { autoClose: 2000 });
-//         setShowModal(false);
-//         setCapturedImage(null);
-//         setProductName('');
-//       } else {
-//         // Fallback: Download the image
-//         const link = document.createElement('a');
-//         link.href = capturedImage;
-//         link.download = `${productName}.png`;
-//         link.click();
-//         toast.info('Chia sẻ không hỗ trợ. Đã tải ảnh xuống!', { autoClose: 2000 });
-//         setShowModal(false);
-//         setCapturedImage(null);
-//         setProductName('');
-//       }
-//     } catch (error) {
-//       console.error('Error sharing image:', error);
-//       toast.error('Lỗi khi chia sẻ ảnh!', { autoClose: 2000 });
-//     }
-//   };
-
-//   const handleClose = () => {
-//     setShowModal(false);
-//     setCapturedImage(null);
-//     setProductName('');
-//   };
-
-//   const products = [
-//     { id: 1, name: 'Chống Nắng cao cấp', price: '¥4,200', image: chongNang, badge: 'Best Seller' },
-//     { id: 2, name: 'Sữa Rửa Mặt', price: '¥3,800', image: suaRuaMat, badge: 'Popular' },
-//     { id: 3, name: 'Thuốc Nhỏ Mắt', price: '¥3,500', image: thuocNhoMat, badge: 'New' },
-//     { id: 4, name: 'Serum Dưỡng Trắng', price: '¥5,600', image: serum, badge: 'Premium' },
-//     { id: 5, name: 'Dạ Dày', price: '¥4,900', image: daDay, badge: 'Limited' },
-//   ];
-
-//   return (
-//     <div className="landing-page">
-//       <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
-//       <Header />
-//       <HomeBanner />
-
-//       {/* Products Section */}
-//       <section id="products" className="products-section py-5">
-//         <Container>
-//           <div className="text-center mb-5">
-//             <h2 className="section-title">Sản Phẩm</h2>
-//             <p className="section-subtitle">Sản phẩm cao cấp được tuyển chọn kỹ lưỡng từ Nhật Bản</p>
-//           </div>
-//           <Row xs={1} md={2} lg={3} className="g-4">
-//             {products.map(product => (
-//               <Col key={product.id} id={`product-${product.id}`}>
-//                 <Card className="product-card h-100">
-//                   <div className="product-image-wrapper">
-//                     <img src={product.image} alt={product.name} className="product-image" />
-//                     <div className="product-badge">{product.badge}</div>
-//                     <div className="product-overlay">
-//                       <Button className="btn btn-light btn-sm">Xem nhanh</Button>
-//                     </div>
-//                   </div>
-//                   <Card.Body className="product-info text-center">
-//                     <Card.Title className="product-name">{product.name}</Card.Title>
-//                     <Card.Text className="product-price">{product.price}</Card.Text>
-//                     <Button
-//                       className="btn btn-primary btn-sm w-100"
-//                       onClick={() => captureAndPreview(product.id)}
-//                     >
-//                       Đặt hàng
-//                     </Button>
-//                   </Card.Body>
-//                 </Card>
-//               </Col>
-//             ))}
-//           </Row>
-//         </Container>
-//       </section>
-
-//       {/* Authenticity Section */}
-//       <QualityNFeedback />
-
-//       <Footer />
-
-//       {/* Image Preview Modal */}
-//       <Modal show={showModal} onHide={handleClose} centered className="image-preview-modal">
-//         <Modal.Header closeButton>
-//           <Modal.Title>{productName} </Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body className="text-center">
-//           {capturedImage && (
-//             <>
-//               <img
-//                 src={capturedImage}
-//                 alt="Captured Product"
-//                 className="img-fluid mb-3"
-//                 style={{ maxHeight: '300px', borderRadius: '8px' }}
-//               />
-            
-//             </>
-//           )}
-//         </Modal.Body>
-//         <Modal.Footer>
-//           <Button variant="secondary" onClick={handleClose}>
-//             Hủy
-//           </Button>
-//           <Button variant="primary" onClick={sendImage}>
-//           Gửi tới Zalo
-//           </Button>
-//         </Modal.Footer>
-//       </Modal>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-// fix lại các tính năng===========================================================
-// import React, { useState, useRef } from 'react'; 
-// import { Container, Navbar, Nav, Row, Col, Carousel, Card, Button, Modal } from 'react-bootstrap';
-// // import * as htmlToImage from 'html-to-image';
-// // import { ToastContainer, toast } from 'react-toastify';  
-// // import 'react-toastify/dist/ReactToastify.css';  
-// import './HomeStyle.scss';
-// import chongNang from '../../assets/chong-nang-cao-cap.jpg';
-// import daDay from '../../assets/da-day.jpg';
-// import serum from '../../assets/serum-duong-trang.jpg';
-// import suaRuaMat from '../../assets/sua-rua-mat.jpg';
-// import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
-// import Header from '../../components/header/Header.jsx';  
-// import QualityNFeedback from '../../components/hardCode/QualityNFeedback.jsx';
-// import HomeBanner from '../../components/hardCode/HomeBanner.jsx';
-// import Footer from '../../components/footer/Footer.jsx';
-
-// const Home = () => {
-//   // const [showModal, setShowModal] = useState(false);
-//   // const [capturedImage, setCapturedImage] = useState(null);
-//   // const [productName, setProductName] = useState('');
-//   // const productCardRef = useRef(null);
-
-//   // const captureAndPreview = async (productId) => {
-//   //   try {
-//   //     const cardElement = document.querySelector(`#product-${productId} .card`);
-//   //     if (!cardElement) return;
-
-//   //     const button = cardElement.querySelector('.btn-primary');
-//   //     if (button) {
-//   //       button.style.display = 'none';
-//   //     }
-
-//   //     const nameElement = cardElement.querySelector('.product-name');
-//   //     const name = nameElement ? nameElement.textContent : '';
-
-//   //     // Capture the image
-//   //     const imgData = await htmlToImage.toPng(cardElement);
-
-//   //     if (button) {
-//   //       button.style.display = 'block';
-//   //     }
-
-//   //     setCapturedImage(imgData);
-//   //     setProductName(name);
-//   //     setShowModal(true);
-//   //   } catch (error) {
-//   //     console.error('Error capturing image:', error);
-//   //     toast.error('Lỗi khi chụp ảnh sản phẩm!', { autoClose: 2000 });
-//   //   }
-//   // };
-
-//   // const sendImage = async () => {
-//   //   if (!capturedImage) return;
-
-//   //   try {
-//   //     const response = await fetch(capturedImage);
-//   //     const blob = await response.blob();
-//   //     const file = new File([blob], `${productName}.png`, { type: 'image/png' });
-
-//   //     // Check if Web Share API is supported
-//   //     if (navigator.share && navigator.canShare({ files: [file] })) {
-//   //       await navigator.share({
-//   //         files: [file],
-//   //         title: `Sản phẩm: ${productName}`,
-//   //         text: `Xem sản phẩm ${productName} từ Ngọc Lan Cosmetics! Liên hệ Zalo: 0902715456`,
-//   //       });
-//   //       toast.success('Đã chia sẻ sản phẩm!', { autoClose: 2000 });
-//   //       setShowModal(false);
-//   //       setCapturedImage(null);
-//   //       setProductName('');
-//   //     } else {
-//   //       // Fallback: Download the image
-//   //       const link = document.createElement('a');
-//   //       link.href = capturedImage;
-//   //       link.download = `${productName}.png`;
-//   //       link.click();
-//   //       toast.info('Chia sẻ không hỗ trợ. Đã tải ảnh xuống!', { autoClose: 2000 });
-//   //       setShowModal(false);
-//   //       setCapturedImage(null);
-//   //       setProductName('');
-//   //     }
-//   //   } catch (error) {
-//   //     console.error('Error sharing image:', error);
-//   //     toast.error('Lỗi khi chia sẻ ảnh!', { autoClose: 2000 });
-//   //   }
-//   // };
-
-//   // const handleClose = () => {
-//   //   setShowModal(false);
-//   //   setCapturedImage(null);
-//   //   setProductName('');
-//   // };
-
-//   const products = [
-//     { id: 1, name: 'Chống Nắng cao cấp', price: '¥4,200', image: chongNang, badge: 'Best Seller' },
-//     { id: 2, name: 'Sữa Rửa Mặt', price: '¥3,800', image: suaRuaMat, badge: 'Popular' },
-//     { id: 3, name: 'Thuốc Nhỏ Mắt', price: '¥3,500', image: thuocNhoMat, badge: 'New' },
-//     { id: 4, name: 'Serum Dưỡng Trắng', price: '¥5,600', image: serum, badge: 'Premium' },
-//     { id: 5, name: 'Dạ Dày', price: '¥4,900', image: daDay, badge: 'Limited' },
-//   ];
-
-//   return (
-//     <div className="landing-page">
-//       {/* <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} /> */}
-//       <Header />
-//       <HomeBanner />
-
-//       {/* Products Section */}
-//       <section id="products" className="products-section py-5">
-//         <Container>
-//           <div className="text-center mb-5">
-//             <h2 className="section-title">Sản Phẩm</h2>
-//             <p className="section-subtitle">Sản phẩm cao cấp được tuyển chọn kỹ lưỡng từ Nhật Bản</p>
-//           </div>
-//           <Row xs={1} md={2} lg={3} className="g-4">
-//             {products.map(product => (
-//               <Col key={product.id} id={`product-${product.id}`}>
-//                 <Card className="product-card h-100">
-//                   <div className="product-image-wrapper">
-//                     <img src={product.image} alt={product.name} className="product-image" />
-//                     <div className="product-badge">{product.badge}</div>
-//                     <div className="product-overlay">
-//                       <Button className="btn btn-light btn-sm">Xem nhanh</Button>
-//                     </div>
-//                   </div>
-//                   <Card.Body className="product-info text-center">
-//                     <Card.Title className="product-name">{product.name}</Card.Title>
-//                     <Card.Text className="product-price">{product.price}</Card.Text>
-//                     <Button
-//                       className="btn btn-primary btn-sm w-100"
-//                       // onClick={() => captureAndPreview(product.id)}
-//                     >
-//                       Đặt hàng
-//                     </Button>
-//                   </Card.Body>
-//                 </Card>
-//               </Col>
-//             ))}
-//           </Row>
-//         </Container>
-//       </section>
-
-//       {/* Authenticity Section */}
-//       <QualityNFeedback />
-
-//       <Footer />
-
-//       {/* Image Preview Modal */}
-//       {/* <Modal show={showModal} onHide={handleClose} centered className="image-preview-modal">
-//         <Modal.Header closeButton>
-//           <Modal.Title>{productName} </Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body className="text-center">
-//           {capturedImage && (
-//             <>
-//               <img
-//                 src={capturedImage}
-//                 alt={productName}
-//                 className="img-fluid mb-3"
-//                 style={{ maxHeight: '300px', borderRadius: '8px' }}
-//               />
-//             </>
-//           )}
-//         </Modal.Body>
-//         <Modal.Footer>
-//           <Button variant="secondary" onClick={handleClose}>
-//             Hủy
-//           </Button>
-//           <Button variant="primary" onClick={sendImage}>
-//             Gửi tới Zalo
-//           </Modal.Footer>
-//         </>
-//       </Modal> */}
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-// fix lại các tính năng=========================================================== ver2
-// import React, { useState, useRef } from 'react'; 
-// import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
-// import './HomeStyle.scss';
-// import chongNang from '../../assets/chong-nang-cao-cap.jpg';
-// import daDay from '../../assets/da-day.jpg';
-// import serum from '../../assets/serum-duong-trang.jpg';
-// import suaRuaMat from '../../assets/sua-rua-mat.jpg';
-// import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
-// import Header from '../../components/header/Header.jsx';  
-// import QualityNFeedback from '../../components/hardCode/QualityNFeedback.jsx';
-// import HomeBanner from '../../components/hardCode/HomeBanner.jsx';
-// import Footer from '../../components/footer/Footer.jsx';
+//  import React, { useState, useEffect } from 'react'; 
+//  import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
+//  import './HomeStyle.scss';
+//  import chongNang from '../../assets/chong-nang-cao-cap.jpg';
+//  import daDay from '../../assets/da-day.jpg';
+//  import serum from '../../assets/serum-duong-trang.jpg';
+//  import suaRuaMat from '../../assets/sua-rua-mat.jpg';
+//  import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
+//  import Header from '../../components/header/Header.jsx';  
+//  import QualityNFeedback from '../../components/hardCode/QualityNFeedback.jsx';
+//  import HomeBanner from '../../components/hardCode/HomeBanner.jsx';
+//  import Footer from '../../components/footer/Footer.jsx';
 
 // const Home = () => {
 //   // State for Quick View Modal
-//   const [showQuickView, setShowQuickView] = useState(false);
+//   const [showViewDetail, setShowViewDetail] = useState(false);
 //   const [selectedProduct, setSelectedProduct] = useState(null);
 
 //   // Handler to open Quick View Modal
-//   const handleQuickView = (product) => {
+//   const handleViewDetail = (product) => {
 //     setSelectedProduct(product);
-//     setShowQuickView(true);
+//     setShowViewDetail(true);
 //   };
 
 //   // Handler to close Quick View Modal
-//   const handleCloseQuickView = () => {
-//     setShowQuickView(false);
+//   const handleCloseViewDetail = () => {
+//     setShowViewDetail(false);
 //     setSelectedProduct(null);
 //   };
 
 //   const products = [
-//     { 
-//       id: 1, 
-//       name: 'Chống Nắng cao cấp', 
-//       price: '¥4,200', 
-//       image: chongNang, 
+//     {
+//       id: 1,
+//       name: 'Kem Chống Nắng Annessa',
+//       price: '550,000 VNĐ',
+//       image: chongNang,
 //       badge: 'Best Seller',
 //       description: 'Kem chống nắng với SPF 50+ PA++++, bảo vệ da khỏi tia UV, dưỡng ẩm và làm sáng da.'
 //     },
-//     { 
-//       id: 2, 
-//       name: 'Sữa Rửa Mặt', 
-//       price: '¥3,800', 
-//       image: suaRuaMat, 
+//     {
+//       id: 2,
+//       name: 'Sữa Rửa Mặt',
+//       price: '120,000 VNĐ',
+//       image: suaRuaMat,
 //       badge: 'Popular',
 //       description: 'Sữa rửa mặt dịu nhẹ, làm sạch sâu, phù hợp với mọi loại da, giúp da mềm mại.'
 //     },
-//     { 
-//       id: 3, 
-//       name: 'Thuốc Nhỏ Mắt', 
-//       price: '¥3,500', 
-//       image: thuocNhoMat, 
+//     {
+//       id: 3,
+//       name: 'Thuốc Nhỏ Mắt',
+//       price: '125,000 VNĐ',
+//       image: thuocNhoMat,
 //       badge: 'New',
 //       description: 'Thuốc nhỏ mắt nhập khẩu từ Nhật Bản, giảm mỏi mắt và bảo vệ mắt khỏi khô rát.'
 //     },
-//     { 
-//       id: 4, 
-//       name: 'Serum Dưỡng Trắng', 
-//       price: '¥5,600', 
-//       image: serum, 
+//     {
+//       id: 4,
+//       name: 'Serum Dưỡng Trắng',
+//       price: '250,000 VNĐ',
+//       image: serum,
 //       badge: 'Premium',
 //       description: 'Serum dưỡng trắng da với thành phần tự nhiên, giúp da đều màu và rạng rỡ.'
 //     },
-//     { 
-//       id: 5, 
-//       name: 'Dạ Dày', 
-//       price: '¥4,900', 
-//       image: daDay, 
-//       badge: 'Limited',
-//       description: 'Thực phẩm chức năng hỗ trợ sức khỏe dạ dày, giảm triệu chứng khó tiêu.'
-//     },
-//   ];
-
-//   return (
-//     <div className="landing-page">
-//       <Header />
-//       <HomeBanner />
-
-//       {/* Products Section */}
-//       <section id="products" className="products-section py-5">
-//         <Container>
-//           <div className="text-center mb-5">
-//             <h2 className="section-title">Sản Phẩm</h2>
-//             <p className="section-subtitle">Sản phẩm cao cấp được tuyển chọn kỹ lưỡng từ Nhật Bản</p>
-//           </div>
-//           <Row xs={1} md={2} lg={3} className="g-4">
-//             {products.map(product => (
-//               <Col key={product.id} id={`product-${product.id}`}>
-//                 <Card className="product-card h-100">
-//                   <div className="product-image-wrapper">
-//                     <img src={product.image} alt={product.name} className="product-image" />
-//                     <div className="product-badge">{product.badge}</div>
-//                     <div className="product-overlay">
-//                       <Button 
-//                         className="btn btn-light btn-sm" 
-//                         onClick={() => handleQuickView(product)}
-//                       >
-//                         Xem nhanh
-//                       </Button>
-//                     </div>
-//                   </div>
-//                   <Card.Body className="product-info text-center">
-//                     <Card.Title className="product-name">{product.name}</Card.Title>
-//                     <Card.Text className="product-price">{product.price}</Card.Text>
-//                     <Button
-//                       className="btn btn-primary btn-sm w-100"
-//                       // onClick={() => captureAndPreview(product.id)}
-//                     >
-//                       Đặt hàng
-//                     </Button>
-//                   </Card.Body>
-//                 </Card>
-//               </Col>
-//             ))}
-//           </Row>
-//         </Container>
-//       </section>
-
-//       {/* Authenticity Section */}
-//       <QualityNFeedback />
-
-//       <Footer />
-
-//       {/* Quick View Modal */}
-//       <Modal show={showQuickView} onHide={handleCloseQuickView} centered className="quick-view-modal">
-//         <Modal.Header closeButton>
-//           <Modal.Title>{selectedProduct?.name}</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body className="text-center">
-//           {selectedProduct && (
-//             <>
-//               <img
-//                 src={selectedProduct.image}
-//                 alt={selectedProduct.name}
-//                 className="img-fluid mb-3"
-//                 style={{ maxHeight: '400px', borderRadius: '8px' }}
-//               />
-//               <h5 className="product-price">{selectedProduct.price}</h5>
-//               <p className="product-description">{selectedProduct.description}</p>
-//             </>
-//           )}
-//         </Modal.Body>
-//         <Modal.Footer>
-//           <Button variant="secondary" onClick={handleCloseQuickView}>
-//             Đóng
-//           </Button>
-//           <Button 
-//             variant="primary" 
-//             // You can add an action here, e.g., redirect to order or contact
-//             onClick={() => alert('Chuyển hướng đến đặt hàng hoặc liên hệ Zalo!')}
-//           >
-//             Đặt hàng
-//           </Button>
-//         </Modal.Footer>
-//       </Modal>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-// lưu vào localstorage =========================================================
-// import React, { useState, useEffect } from 'react'; 
-// import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
-// import './HomeStyle.scss';
-// import chongNang from '../../assets/chong-nang-cao-cap.jpg';
-// import daDay from '../../assets/da-day.jpg';
-// import serum from '../../assets/serum-duong-trang.jpg';
-// import suaRuaMat from '../../assets/sua-rua-mat.jpg';
-// import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
-// import Header from '../../components/header/Header.jsx';  
-// import QualityNFeedback from '../../components/hardCode/QualityNFeedback.jsx';
-// import HomeBanner from '../../components/hardCode/HomeBanner.jsx';
-// import Footer from '../../components/footer/Footer.jsx';
-
-// const Home = () => {
-//   // State for Quick View Modal
-//   const [showQuickView, setShowQuickView] = useState(false);
-//   const [selectedProduct, setSelectedProduct] = useState(null);
-
-//   // Handler to open Quick View Modal
-//   const handleQuickView = (product) => {
-//     setSelectedProduct(product);
-//     setShowQuickView(true);
-//   };
-
-//   // Handler to close Quick View Modal
-//   const handleCloseQuickView = () => {
-//     setShowQuickView(false);
-//     setSelectedProduct(null);
-//   };
-
-//   const products = [
-//     { 
-//       id: 1, 
-//       name: 'Chống Nắng cao cấp', 
-//       price: '¥4,200', 
-//       image: chongNang, 
-//       badge: 'Best Seller',
-//       description: 'Kem chống nắng với SPF 50+ PA++++, bảo vệ da khỏi tia UV, dưỡng ẩm và làm sáng da.'
-//     },
-//     { 
-//       id: 2, 
-//       name: 'Sữa Rửa Mặt', 
-//       price: '¥3,800', 
-//       image: suaRuaMat, 
-//       badge: 'Popular',
-//       description: 'Sữa rửa mặt dịu nhẹ, làm sạch sâu, phù hợp với mọi loại da, giúp da mềm mại.'
-//     },
-//     { 
-//       id: 3, 
-//       name: 'Thuốc Nhỏ Mắt', 
-//       price: '¥3,500', 
-//       image: thuocNhoMat, 
-//       badge: 'New',
-//       description: 'Thuốc nhỏ mắt nhập khẩu từ Nhật Bản, giảm mỏi mắt và bảo vệ mắt khỏi khô rát.'
-//     },
-//     { 
-//       id: 4, 
-//       name: 'Serum Dưỡng Trắng', 
-//       price: '¥5,600', 
-//       image: serum, 
-//       badge: 'Premium',
-//       description: 'Serum dưỡng trắng da với thành phần tự nhiên, giúp da đều màu và rạng rỡ.'
-//     },
-//     { 
-//       id: 5, 
-//       name: 'Dạ Dày', 
-//       price: '¥4,900', 
-//       image: daDay, 
+//     {
+//       id: 5,
+//       name: 'Thuốc Dạ Dày',
+//       price: '290,000 VNĐ',
+//       image: daDay,
 //       badge: 'Limited',
 //       description: 'Thực phẩm chức năng hỗ trợ sức khỏe dạ dày, giảm triệu chứng khó tiêu.'
 //     },
@@ -599,46 +73,77 @@
 
 //   // Check and update localStorage when component mounts
 //   useEffect(() => {
-//     const storedProducts = localStorage.getItem('products');
-//     let updatedProducts = [...products];
+//     try {
+//       const storedProducts = localStorage.getItem('products');
+//       let updatedProducts = [...products];
 
-//     if (!storedProducts) {
-//       // If no products in localStorage, save the full products array
-//       localStorage.setItem('products', JSON.stringify(products));
-//     } else {
-//       // Parse stored products
-//       const parsedStoredProducts = JSON.parse(storedProducts);
-
-//       // Check for missing products or incomplete data
-//       const missingProducts = products.filter(product => {
-//         const storedProduct = parsedStoredProducts.find(sp => sp.id === product.id);
-//         // Return true if product is missing or lacks any field (especially image)
-//         return !storedProduct || !storedProduct.image || Object.keys(product).some(key => storedProduct[key] === undefined);
-//       });
-
-//       if (missingProducts.length > 0) {
-//         // Merge stored products with missing or incomplete products
-//         updatedProducts = parsedStoredProducts.map(storedProduct => {
-//           const currentProduct = products.find(p => p.id === storedProduct.id);
-//           if (currentProduct) {
-//             // Ensure all fields, especially image, are present
-//             return { ...currentProduct };
-//           }
-//           return storedProduct;
+//       if (!storedProducts) {
+//         localStorage.setItem('products', JSON.stringify(products));
+//       } else {
+//         const parsedStoredProducts = JSON.parse(storedProducts);
+//         const missingProducts = products.filter(product => {
+//           const storedProduct = parsedStoredProducts.find(sp => sp.id === product.id);
+//           return !storedProduct || !storedProduct.image || Object.keys(product).some(key => storedProduct[key] === undefined);
 //         });
 
-//         // Add completely missing products
-//         missingProducts.forEach(product => {
-//           if (!updatedProducts.find(up => up.id === product.id)) {
-//             updatedProducts.push({ ...product });
-//           }
-//         });
+//         if (missingProducts.length > 0) {
+//           updatedProducts = parsedStoredProducts.map(storedProduct => {
+//             const currentProduct = products.find(p => p.id === product.id);
+//             if (currentProduct) {
+//               return { ...currentProduct };
+//             }
+//             return storedProduct;
+//           });
 
-//         // Save updated products to localStorage
-//         localStorage.setItem('products', JSON.stringify(updatedProducts));
+//           missingProducts.forEach(product => {
+//             if (!updatedProducts.find(up => up.id === product.id)) {
+//               updatedProducts.push({ ...product });
+//             }
+//           });
+
+//           localStorage.setItem('products', JSON.stringify(updatedProducts));
+//         }
 //       }
+//     } catch (error) {
+//       console.error('Error updating localStorage:', error);
 //     }
-//   }, []); // Empty dependency array to run only on mount
+//   }, []);
+
+//   // Handler for "Đặt hàng" button
+//   const handleOrder = async (product) => {
+//     // Extract product details, excluding id and badge
+//     const { id, badge, ...shareableProduct } = product;
+//     const { name, price, image, description } = shareableProduct;
+
+//     // Format the message to share
+//     const shareText = `Đặt hàng sản phẩm:\nTên: ${name}\nGiá: ${price}\nMô tả: ${description}\nLiên hệ Ngọc Lan Cosmetics qua Zalo: 0902715456 \n`;
+
+//     try {
+//       // Check if Web Share API is supported
+//       if (navigator.share) {
+//         await navigator.share({
+//           title: `Sản phẩm: ${name}`,
+//           text: shareText,
+//           url: image, // Share the image URL
+//         });
+//         console.log('Product shared successfully');
+//       } else {
+//         // Fallback: Open Zalo with pre-filled message
+//         const encodedText = encodeURIComponent(shareText);
+//         const zaloUrl = `https://zalo.me/0902715456?text=${encodedText}`;
+//         window.open(zaloUrl, '_blank');
+
+//         // Secondary fallback: Copy to clipboard
+//         await navigator.clipboard.writeText(shareText);
+//         alert('Thông tin sản phẩm đã được sao chép vào clipboard! Bạn cũng được chuyển đến Zalo.');
+//       }
+//     } catch (error) {
+//       console.error('Error sharing product:', error);
+//       // Fallback: Copy to clipboard and alert user
+//       await navigator.clipboard.writeText(shareText);
+//       alert('Không thể chia sẻ trực tiếp. Thông tin sản phẩm đã được sao chép vào clipboard!');
+//     }
+//   };
 
 //   return (
 //     <div className="landing-page">
@@ -662,9 +167,9 @@
 //                     <div className="product-overlay">
 //                       <Button 
 //                         className="btn btn-light btn-sm" 
-//                         onClick={() => handleQuickView(product)}
+//                         onClick={() => handleViewDetail(product)}
 //                       >
-//                         Xem nhanh
+//                         Xem chi tiết
 //                       </Button>
 //                     </div>
 //                   </div>
@@ -673,9 +178,9 @@
 //                     <Card.Text className="product-price">{product.price}</Card.Text>
 //                     <Button
 //                       className="btn btn-primary btn-sm w-100"
-//                       // onClick={() => captureAndPreview(product.id)}
+//                       onClick={() => handleOrder(product)}
 //                     >
-//                       Đặt hàng
+//                       Đặt hàng qua Zalo
 //                     </Button>
 //                   </Card.Body>
 //                 </Card>
@@ -691,7 +196,7 @@
 //       <Footer />
 
 //       {/* Quick View Modal */}
-//       <Modal show={showQuickView} onHide={handleCloseQuickView} centered className="quick-view-modal">
+//       <Modal show={showViewDetail} onHide={handleCloseViewDetail} centered className="quick-view-modal">
 //         <Modal.Header closeButton>
 //           <Modal.Title>{selectedProduct?.name}</Modal.Title>
 //         </Modal.Header>
@@ -710,15 +215,14 @@
 //           )}
 //         </Modal.Body>
 //         <Modal.Footer>
-//           <Button variant="secondary" onClick={handleCloseQuickView}>
+//           <Button variant="secondary" onClick={handleCloseViewDetail}>
 //             Đóng
 //           </Button>
 //           <Button 
 //             variant="primary" 
-//             // You can add an action here, e.g., redirect to order or contact
-//             onClick={() => alert('Chuyển hướng đến đặt hàng hoặc liên hệ Zalo!')}
+//             onClick={() => handleOrder(selectedProduct)}
 //           >
-//             Đặt hàng
+//             Đặt hàng qua Zalo
 //           </Button>
 //         </Modal.Footer>
 //       </Modal>
@@ -728,8 +232,7 @@
 
 // export default Home;
 
-
-// order
+/// dời button xem chi tiết ra 
  import React, { useState, useEffect } from 'react'; 
  import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
  import './HomeStyle.scss';
@@ -745,18 +248,18 @@
 
 const Home = () => {
   // State for Quick View Modal
-  const [showQuickView, setShowQuickView] = useState(false);
+  const [showViewDetail, setShowViewDetail] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Handler to open Quick View Modal
-  const handleQuickView = (product) => {
+  const handleViewDetail = (product) => {
     setSelectedProduct(product);
-    setShowQuickView(true);
+    setShowViewDetail(true);
   };
 
   // Handler to close Quick View Modal
-  const handleCloseQuickView = () => {
-    setShowQuickView(false);
+  const handleCloseViewDetail = () => {
+    setShowViewDetail(false);
     setSelectedProduct(null);
   };
 
@@ -799,7 +302,7 @@ const Home = () => {
       price: '290,000 VNĐ',
       image: daDay,
       badge: 'Limited',
-      description: 'Thực phẩm chức năng hỗ trợ sức khỏe dạ dày, giảm triệu chứng khó tiêu.'
+      description: 'Thực phẩm chức năng hỗ trợ sức khỏe dạ dày, giảm triệu chứng khó tiêu. BỘT UỐNG CHO NGƯỜI DẠ DÀY, BAO TỬ, Ợ CHUA PANCILON NỘI ĐỊA NHẬT'
     },
   ];
 
@@ -897,23 +400,27 @@ const Home = () => {
                     <img src={product.image} alt={product.name} className="product-image" />
                     <div className="product-badge">{product.badge}</div>
                     <div className="product-overlay">
-                      <Button 
-                        className="btn btn-light btn-sm" 
-                        onClick={() => handleQuickView(product)}
-                      >
-                        Xem chi tiết
-                      </Button>
+                      
                     </div>
                   </div>
                   <Card.Body className="product-info text-center">
                     <Card.Title className="product-name">{product.name}</Card.Title>
                     <Card.Text className="product-price">{product.price}</Card.Text>
-                    <Button
-                      className="btn btn-primary btn-sm w-100"
+                  <div className='d-flex justify-content-between align-items-center'>
+                     <Button 
+                        className="btn btn-primary w-100 m-2 btn-sm" 
+                        onClick={() => handleViewDetail(product)}
+                      >
+                        Xem chi tiết
+                      </Button>
+                      <Button
+                      className="btn btn-light btn-sm w-100"
                       onClick={() => handleOrder(product)}
                     >
-                      Đặt hàng
+                      Đặt hàng Zalo
                     </Button>
+                   
+                  </div>
                   </Card.Body>
                 </Card>
               </Col>
@@ -928,7 +435,7 @@ const Home = () => {
       <Footer />
 
       {/* Quick View Modal */}
-      <Modal show={showQuickView} onHide={handleCloseQuickView} centered className="quick-view-modal">
+      <Modal show={showViewDetail} onHide={handleCloseViewDetail} centered className="quick-view-modal">
         <Modal.Header closeButton>
           <Modal.Title>{selectedProduct?.name}</Modal.Title>
         </Modal.Header>
@@ -947,14 +454,14 @@ const Home = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseQuickView}>
+          <Button variant="secondary" onClick={handleCloseViewDetail}>
             Đóng
           </Button>
           <Button 
             variant="primary" 
             onClick={() => handleOrder(selectedProduct)}
           >
-            Đặt hàng
+            Đặt hàng qua Zalo
           </Button>
         </Modal.Footer>
       </Modal>
