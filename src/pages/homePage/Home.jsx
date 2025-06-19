@@ -1,17 +1,17 @@
- import { Container, Navbar, Nav, Row, Col, Carousel, Card, Button, Modal } from 'react-bootstrap';
+import React, { useState, useRef } from 'react'; 
+import { Container, Navbar, Nav, Row, Col, Carousel, Card, Button, Modal } from 'react-bootstrap';
 import * as htmlToImage from 'html-to-image';
 import { ToastContainer, toast } from 'react-toastify';  
 import 'react-toastify/dist/ReactToastify.css';  
 import './HomeStyle.scss';
-import React, { useState, useRef } from 'react'; 
- 
 import chongNang from '../../assets/chong-nang-cao-cap.jpg';
 import daDay from '../../assets/da-day.jpg';
 import serum from '../../assets/serum-duong-trang.jpg';
 import suaRuaMat from '../../assets/sua-rua-mat.jpg';
 import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
-import poster from '../../assets/poster.jpg';
 import Header from '../../components/header/Header.jsx';  
+import QualityNFeedback from '../../components/hardCode/QualityNFeedback.jsx';
+import HomeBanner from '../../components/hardCode/HomeBanner.jsx';
 import Footer from '../../components/footer/Footer.jsx';
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
@@ -102,51 +102,11 @@ const Home = () => {
     { id: 5, name: 'Dạ Dày', price: '¥4,900', image: daDay, badge: 'Limited' },
   ];
 
-  const testimonials = [
-    { id: 1, text: 'Sản phẩm Nhật Bản chính hãng với mức giá phải chăng!', author: 'C. Tú', rating: 5, location: 'HCM' },
-    { id: 2, text: 'Da tôi chưa bao giờ cảm thấy tốt như vậy. Rất đáng để thử!', author: 'L. Anh', rating: 5, location: 'Hà Nội' },
-    { id: 3, text: 'Giao hàng nhanh và sản phẩm chính hãng. Sẽ tiếp tục ủng hộ!', author: 'T. Chung', rating: 5, location: 'Đà Nẵng' },
-  ];
-
   return (
     <div className="landing-page">
-  
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
-
-      
       <Header />
-
-      {/* Hero Section */}
-      <section id="home" className="hero-section py-5">
-        <Container>
-          <Row className="align-items-center min-vh-100">
-            <Col md={6} className="order-2 order-md-1 text-center text-md-start">
-              <div className="hero-content">
-                <h1 className="hero-title">
-                  Vẻ đẹp tinh túy từ <span className="highlight">Nhật Bản</span>
-                </h1>
-                <p className="hero-subtitle">
-                  Khám phá mỹ phẩm & chăm sóc da cao cấp xách tay từ Nhật Bản, đảm bảo chính hãng và tươi mới.
-                </p>
-                <div className="hero-buttons">
-                  <Button className="btn btn-primary btn-lg me-3">Shop Now</Button>
-                </div>
-                <div className="hero-features mt-4">
-                  <div className="feature-item"><span className="feature-icon">✨</span>100% Hàng thật</div>
-                  <div className="feature-item"><span className="feature-icon">🚀</span>Giao hàng nhanh</div>
-                  <div className="feature-item"><span className="feature-icon">💝</span>Chất lượng tuyệt vời</div>
-                </div>
-              </div>
-            </Col>
-            <Col md={6} className="order-1 order-md-2 mt-4 mt-md-0">
-              <div className="hero-image">
-                <img src={poster} alt="Japanese Cosmetics" className="img-fluid" />
-                <div className="floating-badge"><span>Liên hệ ngay Zalo: 0902715456</span></div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+      <HomeBanner />
 
       {/* Products Section */}
       <section id="products" className="products-section py-5">
@@ -184,75 +144,10 @@ const Home = () => {
       </section>
 
       {/* Authenticity Section */}
-      <section id="about" className="authenticity-section py-5">
-        <Container>
-          <Row className="align-items-center">
-            <Col md={6} className="order-md-2">
-              <div className="authenticity-image">
-                <img src={poster} alt="Japanese Beauty Store" className="img-fluid rounded" />
-              </div>
-            </Col>
-            <Col md={6} className="order-md-1">
-              <div className="authenticity-content">
-                <h2 className="section-title">Chất lượng Nhật Bản chính hiệu</h2>
-                <div className="authenticity-features">
-                  <div className="feature-card">
-                    <div className="feature-icon-wrapper"><span className="feature-icon">🇯🇵</span></div>
-                    <div className="feature-content">
-                      <h4>Nhập trực tiếp từ Nhật Bản</h4>
-                      <p>Tất cả sản phẩm được nhập khẩu trực tiếp từ Nhật Bản và được đóng gói cẩn thận.</p>
-                    </div>
-                  </div>
-                  <div className="feature-card">
-                    <div className="feature-icon-wrapper"><span className="feature-icon">🔒</span></div>
-                    <div className="feature-content">
-                      <h4>Cam kết chính hãng 100%</h4>
-                      <p>Chúng tôi hợp tác với các nhà cung cấp uy tín để đảm bảo tính xác thực và độ tươi mới.</p>
-                    </div>
-                  </div>
-                  <div className="feature-card">
-                    <div className="feature-icon-wrapper"><span className="feature-icon">⚡</span></div>
-                    <div className="feature-content">
-                      <h4>Tươi mới & Hiện đại</h4>
-                      <p>Trải nghiệm triết lý chăm sóc da nổi tiếng của Nhật Bản: dịu nhẹ nhưng hiệu quả vượt trội.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+      <QualityNFeedback />
 
-      {/* Testimonials Section */}
-      <section className="testimonials-section py-5">
-        <Container>
-          <div className="text-center mb-5">
-            <h2 className="section-title">Phản hồi từ khách hàng</h2>
-          </div>
-          <Carousel indicators={false} className="testimonial-slider">
-            {testimonials.map(testimonial => (
-              <Carousel.Item key={testimonial.id}>
-                <div className="testimonial-card p-4 text-center mx-auto">
-                  <div className="stars mb-3">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="star">⭐</span>
-                    ))}
-                  </div>
-                  <p className="testimonial-text">"{testimonial.text}"</p>
-                  <div className="testimonial-author">
-                    <strong>{testimonial.author}</strong>
-                    <span className="location">{testimonial.location}</span>
-                  </div>
-                </div>
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </Container>
-      </section>
-
-      {/* Footer */}
       <Footer />
+
       {/* Image Preview Modal */}
       <Modal show={showModal} onHide={handleClose} centered className="image-preview-modal">
         <Modal.Header closeButton>
