@@ -1,19 +1,18 @@
  import { Container, Navbar, Nav, Row, Col, Carousel, Card, Button, Modal } from 'react-bootstrap';
 import * as htmlToImage from 'html-to-image';
-import { ToastContainer, toast } from 'react-toastify'; // Add react-toastify
-import 'react-toastify/dist/ReactToastify.css'; // Add toastify CSS
+import { ToastContainer, toast } from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css';  
 import './HomeStyle.scss';
-import React, { useState, useRef } from 'react'; // Added missing React import
-
-// Import product images
+import React, { useState, useRef } from 'react'; 
+ 
 import chongNang from '../../assets/chong-nang-cao-cap.jpg';
 import daDay from '../../assets/da-day.jpg';
 import serum from '../../assets/serum-duong-trang.jpg';
 import suaRuaMat from '../../assets/sua-rua-mat.jpg';
 import thuocNhoMat from '../../assets/thuoc-nho-mat.jpg';
 import poster from '../../assets/poster.jpg';
-import footerImg from '../../assets/footerImg.jpg';
-
+import Header from '../../components/header/Header.jsx';  
+import Footer from '../../components/footer/footer.jsx';
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -25,20 +24,20 @@ const Home = () => {
       const cardElement = document.querySelector(`#product-${productId} .card`);
       if (!cardElement) return;
 
-      // Temporarily hide the "Order" button
+ 
       const button = cardElement.querySelector('.btn-primary');
       if (button) {
         button.style.display = 'none';
       }
 
-      // Get the product name
+    
       const nameElement = cardElement.querySelector('.product-name');
       const name = nameElement ? nameElement.textContent : '';
 
       // Capture the image
       const imgData = await htmlToImage.toPng(cardElement);
 
-      // Restore the button visibility
+      
       if (button) {
         button.style.display = 'block';
       }
@@ -56,7 +55,7 @@ const Home = () => {
     if (!capturedImage) return;
 
     try {
-      // Convert base64 image to blob
+   
       const response = await fetch(capturedImage);
       const blob = await response.blob();
       const file = new File([blob], `${productName}.png`, { type: 'image/png' });
@@ -111,24 +110,11 @@ const Home = () => {
 
   return (
     <div className="landing-page">
-      {/* Toast Container for Notifications */}
+  
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
 
-      {/* Header */}
-      <header className="header fixed-top">
-        <Navbar expand="lg" className="navbar px-3">
-          <Container>
-            <Navbar.Brand href="#home" className="brand-text" style={{fontSize: '26px'}}>Ngọc Lan Cosmetics  </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
-                <Nav.Link href="#home" className="nav-link">Zalo: 0902715456</Nav.Link>
-                <Nav.Link href="#home" className="nav-link">Trang chủ</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-      </header>
+      
+      <Header />
 
       {/* Hero Section */}
       <section id="home" className="hero-section py-5">
@@ -266,29 +252,7 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="footer py-5">
-        <Container>
-          <Row>
-            <Col md={6} className="mb-4 mb-md-0">
-              <div className="footer-brand">
-                <h3 className="brand-text">Ngọc Lan Cosmetics</h3>
-                <p>Mang đến cho bạn những sản phẩm làm đẹp chuẩn Nhật chính hiệu.</p>
-                 
-              </div>
-            </Col>
-            <Col md={6} className="mb-4 mb-md-0">
-              <h4 className="footer-title">Liên hệ</h4>
-              <div className="contact-info">
-                <p><span>📞</span><strong>Zalo:</strong> 0902715456</p>
-                <p><span>📍</span><strong>Địa chỉ:</strong> 6B5, đường Hà Huy Giáp, Phường Thạnh Lộc, Quận 12, TPHCM</p>
-              </div>
-            </Col>
-          </Row>
-          <hr className="footer-divider mt-4 mb-3" />
-          <p className="footer-copyright text-center mb-0">© 2025 Bản quyền thuộc về github: teadev2002</p>
-        </Container>
-      </footer>
-
+      <Footer />
       {/* Image Preview Modal */}
       <Modal show={showModal} onHide={handleClose} centered className="image-preview-modal">
         <Modal.Header closeButton>
