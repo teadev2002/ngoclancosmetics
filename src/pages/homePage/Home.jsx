@@ -763,8 +763,8 @@ const Home = () => {
   const products = [
     {
       id: 1,
-      name: 'Chống Nắng Cao Cấp',
-      price: '¥4,200',
+      name: 'Kem Chống Nắng Annessa',
+      price: '550,000 VNĐ',
       image: chongNang,
       badge: 'Best Seller',
       description: 'Kem chống nắng với SPF 50+ PA++++, bảo vệ da khỏi tia UV, dưỡng ẩm và làm sáng da.'
@@ -772,7 +772,7 @@ const Home = () => {
     {
       id: 2,
       name: 'Sữa Rửa Mặt',
-      price: '¥3,800',
+      price: '120,000 VNĐ',
       image: suaRuaMat,
       badge: 'Popular',
       description: 'Sữa rửa mặt dịu nhẹ, làm sạch sâu, phù hợp với mọi loại da, giúp da mềm mại.'
@@ -780,7 +780,7 @@ const Home = () => {
     {
       id: 3,
       name: 'Thuốc Nhỏ Mắt',
-      price: '¥3,500',
+      price: '125,000 VNĐ',
       image: thuocNhoMat,
       badge: 'New',
       description: 'Thuốc nhỏ mắt nhập khẩu từ Nhật Bản, giảm mỏi mắt và bảo vệ mắt khỏi khô rát.'
@@ -788,15 +788,15 @@ const Home = () => {
     {
       id: 4,
       name: 'Serum Dưỡng Trắng',
-      price: '¥5,600',
+      price: '250,000 VNĐ',
       image: serum,
       badge: 'Premium',
       description: 'Serum dưỡng trắng da với thành phần tự nhiên, giúp da đều màu và rạng rỡ.'
     },
     {
       id: 5,
-      name: 'Dạ Dày',
-      price: '¥4,900',
+      name: 'Thuốc Dạ Dày',
+      price: '290,000 VNĐ',
       image: daDay,
       badge: 'Limited',
       description: 'Thực phẩm chức năng hỗ trợ sức khỏe dạ dày, giảm triệu chứng khó tiêu.'
